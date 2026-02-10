@@ -1,34 +1,36 @@
 import os
-from openai import OpenAI
 from dotenv import load_dotenv
-from pypdf import PdfReader
+
 from pinecone import Pinecone
+from langchain_community.document_loaders import PyPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_pinecone import PineconeVectorStore
-from langchain_openai import OpenAIEmbeddings
+from langchain_openai import OpenAIEmbeddings, ChatOpenAI
+from langchain_core.runnables import RunnablePassthrough
+from langchain_core.output_parsers import StrOutputParser
+from langchain_core.prompts import ChatPromptTemplate
+
 
 load_dotenv()
 
 pc = Pinecone(api_key=os.getenv("PINECONE_API_KEY"))
 
-index_name = "rag-stack-enterprise"
+index_name = "rag-stack"
 index = pc.Index(index_name)
 
 embeddings = OpenAIEmbeddings(model="text-embedding-3-small")
 
-def extract_text_from_pdf(path):
-    reader = PdfReader(path)
-    full_text = ""
+def process_pdf(path: str):
+    """
+    This function is designed to process a PDF file located at the specified path.
+    
+    :param path: The `process_pdf` function takes a single parameter `path`, which is a string
+    representing the file path to a PDF file that you want to process
+    :type path: str
+    """
 
-    for page in range(len(reader.pages)):
-        page = reader.pages[page]
-        text = page.extract_text()
-        full_text += text + "\n"
-
-    return full_text
-
-def load_and_chunk_pdf(path: str):
-    text = extract_text_from_pdf(path)
+    loader = PyPDFLoader(path)
+    docs = loader.load()
 
     text_splitter = RecursiveCharacterTextSplitter(
         chunk_size=1000,
@@ -36,14 +38,47 @@ def load_and_chunk_pdf(path: str):
         length_function=len,
     )
 
-    chunks = text_splitter.split_text(text)
+    chunks = text_splitter.split_documents(docs)
 
-    return chunks
-
-def upload_to_pinecone(chunks):
     vectorstore = PineconeVectorStore.from_documents(
-        documents=chunks,
-        embedding=embeddings,
-        index=index
+        documents=chunks, 
+        embedding=embeddings, 
+        index_name=index_name
     )
     return vectorstore
+
+def get_response(query: str):
+    vectorstore = PineconeVectorStore(
+        embedding=embeddings, 
+        index_name=index_name
+    )
+
+    retriever  = vectorstore.as_retriever(search_kwargs={"k": 3})
+
+    # Initialize the LLM
+    llm = ChatOpenAI(model="gpt-4o", temperature=0)
+
+    template = """
+    You are a helpful assistant. Use the following pieces of retrieved context 
+    to answer the question. If you don't know the answer, just say that you 
+    don't know, don't try to make up an answer.
+
+    Context: {context}
+
+    Question: {question}
+    """
+
+    prompt = ChatPromptTemplate.from_template(template)
+
+    chain = (
+        {"context": retriever, "question": RunnablePassthrough()}
+        | prompt
+        | llm
+        | StrOutputParser()
+    )
+
+    return chain.invoke(query)
+
+
+
+    
