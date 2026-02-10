@@ -1,14 +1,11 @@
 import ChatInterface from './components/ChatInterface';
+import UploadFile from './components/UploadFile';
+import './App.css'
 
 function App() {
   return (
     <div>
-      <header>
-        <h1>RAG Engine</h1>
-      </header>
-      <main>
-        <ChatInterface />
-      </main>
+      <UploadFile/>
     </div>
   );
 }
