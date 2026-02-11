@@ -1,4 +1,5 @@
 import React, {useState} from "react";
+import { chatService } from "../services/api";
 
 function UploadFile() {
     const [file, setFile] = useState(null);
@@ -9,7 +10,7 @@ function UploadFile() {
     const handleFileInputChange = (event) => {
         if (event.target.files[0]) {
             setFile(event.target.files[0])
-            setStatus('idle'); //
+            setStatus('idle'); 
         }
     }
 
@@ -20,23 +21,13 @@ function UploadFile() {
         setIsUploading(true);
         setStatus('uploading');
 
-        const formData = new FormData();
-        formData.append('file', file);
-
         try {
-            const endpoint = "http://localhost:8000/upload"
-            const response = await fetch(endpoint, {
-                method: "POST",
-                body: formData
-            });
+            const data = await chatService.uploadPDF(file)
 
-            if (response.ok) {
-                setStaus('success');
-                console.log("File uploaded sucessfully!");
-            } else {
-                setStaus('error');
-                console.error("File failed to upload.");
-            }
+           
+            setStaus('success');
+            console.log("File uploaded sucessfully:", data);
+            
         } catch(error) {
             setStatus('error');
             console.error(error);

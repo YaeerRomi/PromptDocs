@@ -1,18 +1,49 @@
-import React, {useState} from 'react'
+import React, {useState, useRef, useEffect} from 'react'
+import { chatService } from '../services/api';
+import ChatInput from './ChatInput';
+import MessageList from './MessageList';
 
 
 function ChatInterface() {
+    const [messages, setMessages] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
+    const [sources, setSources] = useState([]);
+    const scrollRef = useRef(null);
 
+
+    const handleSend = async (query) => {
+        const userMessage = {role: 'user', content: query, id: Date.now() }
+        setMessages((prev) => [...prev, userMessage]);
+
+        setIsLoading(true);
+
+        try {
+            const data = await chatService.sendMessage(query);
+            const aiMessage = {
+                role: 'ai', 
+                content: data.answer, 
+                id: Date.now() + 1
+            };
+
+            setMessages((prev) => [...prev, aiMessage]);
+        } catch (err) {
+            setMessages((prev) => [...prev, {
+                role: 'ai', 
+                content: "Sorry, I lost my connection", 
+                isError: true, 
+                id: Date.now()
+            }
+        ]);
+        } finally {
+            setIsLoading(false);
+        }
+    };
 
     return(
-        <div className='chat-container'>
-            <div className='message-area'>
+        <div className='chat-container-box'>
+            <MessageList messages={messages}/>
 
-            </div>
-            <div className='input-area'>
-                <input type='text' placeholder='Type a message....'/>
-
-            </div>
+            <ChatInput handleSend={handleSend} disabled={isLoading}/>
         </div>
     );
 }

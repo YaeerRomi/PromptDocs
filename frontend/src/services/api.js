@@ -8,13 +8,13 @@ const apiClient = axios.create({
 });
 
 export const chatService = {
-  // Hits your FastAPI /chat endpoint
+  // Hits FastAPI /chat endpoint
   async sendMessage(message) {
     const response = await apiClient.post('/chat', { message });
-    return response.data; // Should return { answer: "..." }
+    return response.data; // return { answer: "..." }
   },
 
-  // Hits your FastAPI /upload endpoint
+  // Hits FastAPI /upload endpoint
   async uploadPDF(file) {
     const formData = new FormData();
     formData.append('file', file);
