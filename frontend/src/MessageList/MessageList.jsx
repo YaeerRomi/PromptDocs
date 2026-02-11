@@ -5,7 +5,7 @@ function MessageList({ messages, scrollRef }) {
     return(
         <div className={styles.container} ref={scrollRef}>
             {messages.map((m) => (
-                <div key={m.id} className={`${styles.msgWrapper} ${m.role} ${m.isError ? 'eror' : ''}`}>
+                <div key={m.id} className={`${styles.msgWrapper} ${styles[m.role]} ${m.isError ? styles.error : ''}`}>
                     <div className={styles.msgBubble}>
                         {m.content}
                     </div>

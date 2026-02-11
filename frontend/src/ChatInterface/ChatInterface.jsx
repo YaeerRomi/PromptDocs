@@ -11,6 +11,12 @@ function ChatInterface() {
     const [sources, setSources] = useState([]);
     const scrollRef = useRef(null);
 
+    useEffect(() => {
+        if (scrollRef.current) {
+            scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+        }
+    }, [messages]);
+
 
     const handleSend = async (query) => {
         const userMessage = {role: 'user', content: query, id: Date.now() }

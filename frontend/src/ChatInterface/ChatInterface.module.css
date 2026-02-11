@@ -1,5 +1,7 @@
 
-.container { 
+.container {
     border-radius: 16px;
-    width: 450px;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
 }

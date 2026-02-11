@@ -5,7 +5,7 @@ import styles from './ChatInput.module.css'
 function ChatInput({handleSend, disabled}) {
     const [query, setQuery] = useState('');
 
-    const onSubmit = (event) => {
+    const onSubmit = (e) => {
         e.preventDefault();
         handleSend(query)
         setQuery("");

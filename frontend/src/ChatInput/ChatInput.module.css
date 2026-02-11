@@ -3,10 +3,11 @@
     display: flex;
     align-items: center;
     gap: 12px;
-    padding: 10px 20px;
+    padding: 14px 24px;
     background-color: hsl(0, 0%, 10%);
     box-shadow: 0 10px 25px rgba(0,0,0,0.3);
     border-radius: 25px;
+    max-width: 800px;
     width: 100%;
     box-sizing: border-box;
     
@@ -14,6 +15,7 @@
 
 .inputField {
     flex-grow: 1;
+    font-size: 1rem;
     background-color: transparent;
     border: none;
     padding: 10px 14px;
