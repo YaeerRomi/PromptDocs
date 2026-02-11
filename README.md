@@ -38,7 +38,7 @@ docker compose up --build
 - Frontend: http://localhost:5173
 - Backend API: http://localhost:8000/docs
 
-** Architecture & Stack**
+**Architecture & Stack**
 - Frontend: React (Vite) with a custom Dark Mode UI.
 
 - Backend: FastAPI for high-performance, asynchronous document processing.
