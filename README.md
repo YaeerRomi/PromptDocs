@@ -1,6 +1,6 @@
-# Title
+# PromptDocs
 
-A professional **Full-Stack Retrieval-Augmented Generation (RAG)** application designed for high-performance document intelligence. This project demonstrates a production-ready pipeline including automated document ingestion, vector search, and a responsive React interface.
+A **Full-Stack Retrieval-Augmented Generation (RAG)** application designed for high-performance document intelligence. This project demonstrates a production-ready pipeline including automated document ingestion, vector search, and a responsive React interface.
 
 ## Quick Start (Docker)
 
@@ -12,7 +12,7 @@ git clone [https://github.com/yourusername/rag-stack-enterprise.git](https://git
 cd rag-stack-enterprise
 ```
 
-2. **Setup Environment Variables:
+2. **Setup Environment Variables:**
 Create a .env file in the root, or separate .env files in /backend and /frontend as follows:
 
 Backend (backend/.env):
@@ -30,7 +30,7 @@ Frontend (frontend/.env):
 VITE_API_URL=http://localhost:8000
 ```
 
-3. **Launch with Docker Compose:
+3. **Launch with Docker Compose:**
 
 ```bash
 docker compose up --build
@@ -38,7 +38,7 @@ docker compose up --build
 - Frontend: http://localhost:5173
 - Backend API: http://localhost:8000/docs
 
-** Architecture & Stack
+** Architecture & Stack**
 - Frontend: React (Vite) with a custom Dark Mode UI.
 
 - Backend: FastAPI for high-performance, asynchronous document processing.
