@@ -1,7 +1,6 @@
 import React from 'react';
-import ChatInterface from './components/ChatInterface';
-import UploadFile from './components/UploadFile';
-import './App.css'
+import ChatInterface from './ChatInterface/ChatInterface';
+import UploadFile from './UploadFile/UploadFile';
 
 function App() {
   return (

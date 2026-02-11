@@ -1,7 +1,8 @@
 import React, {useState, useRef, useEffect} from 'react'
 import { chatService } from '../services/api';
-import ChatInput from './ChatInput';
-import MessageList from './MessageList';
+import ChatInput from '../ChatInput/ChatInput';
+import MessageList from '../MessageList/MessageList';
+import styles from './ChatInterface.module.css'
 
 
 function ChatInterface() {
@@ -40,7 +41,7 @@ function ChatInterface() {
     };
 
     return(
-        <div className='chat-container-box'>
+        <div className={styles.container}>
             <MessageList messages={messages}/>
 
             <ChatInput handleSend={handleSend} disabled={isLoading}/>

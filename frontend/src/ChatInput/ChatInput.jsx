@@ -1,4 +1,5 @@
 import { useState } from "react"
+import styles from './ChatInput.module.css'
 
 
 function ChatInput({handleSend, disabled}) {
@@ -11,16 +12,16 @@ function ChatInput({handleSend, disabled}) {
     }
 
     return(
-        <form className="chat-input-wrapper"  onSubmit={onSubmit}>
+        <form className={styles.inputWrapper}  onSubmit={onSubmit}>
             <input
-                className="chat-input-field"
+                className={styles.inputField}
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder="Ask me anything..."/>
 
                 <button 
                     type="submit" 
-                    className="chat-send-button"
+                    className={styles.sendBtn}
                     disabled={disabled}
                     >Send</button>
         </form>

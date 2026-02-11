@@ -1,5 +1,6 @@
 import React, {useState} from "react";
 import { chatService } from "../services/api";
+import styles from './UploadFile.module.css'
 
 function UploadFile() {
     const [file, setFile] = useState(null);
@@ -25,7 +26,7 @@ function UploadFile() {
             const data = await chatService.uploadPDF(file)
 
            
-            setStaus('success');
+            setStatus('success');
             console.log("File uploaded sucessfully:", data);
             
         } catch(error) {
@@ -37,11 +38,14 @@ function UploadFile() {
     }
 
     return(
-        <div className="upload-file-container">
-            <h1>Upload File</h1>
+        <div className={styles.uploadFileContainer}>
+            <h1 className={styles.heading}>Upload File</h1>
 
-            <form onSubmit={handleSubmit}>
-                <label htmlFor="file-upload" className="custom-file-upload">
+            <form onSubmit={handleSubmit} className={styles.fileForm}>
+                <div>
+                    
+                </div>
+                <label htmlFor="file-upload" className={styles.fileBtn}>
                     {file ? "Change File" : "Choose PDF"}
                 </label>
 
@@ -55,7 +59,7 @@ function UploadFile() {
                 
 
                 <button 
-                    className={`submit-button ${status}`}
+                    className={`${styles.submitBtn} ${styles[status] || ''}`}
                     type="submit"
                     disabled={isUploading || !file}
                     >
@@ -63,9 +67,9 @@ function UploadFile() {
                     </button>
             </form>
             {file && (
-                <div className="file-info">
-                    <span className="file-name">📄 {file.name}</span>
-                    {status === 'success' && <span className="success-tag">Ready</span>}
+                <div className={styles.fileInfo}>
+                    <span >📄 {file.name}</span>
+                    {status === 'success' && <span className={styles.success}>Ready</span>}
                 </div>
             )}
         </div>
